@@ -1,6 +1,7 @@
 require_relative 'encrypt'
 require_relative 'decrypt'
 require_relative 'crack'
+require_relative 'keys'
 
 class Enigma < Encrypt
 
