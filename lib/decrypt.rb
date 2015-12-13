@@ -1,6 +1,6 @@
-require_relative 'encrypt'
+require_relative 'keys'
 
-class Decrypt < Encrypt
+class Decrypt < Keys
 
   def rotate_encrypted_message(message)
     indices_and_rotators = which_rotator(message)

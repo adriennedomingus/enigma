@@ -22,7 +22,7 @@ class Crack < Decrypt
     end_indices
     map_last_four_of_encrypted(message)
     i = 0
-    @total_rotators = []
+    @overall_rotators = []
     4.times do
       i += 1
       rotator = @message_end[i - 1] - end_indices[i-1]
@@ -31,29 +31,28 @@ class Crack < Decrypt
       else
         rotator
       end
-      @total_rotators << rotator
+      @overall_rotators << rotator
     end
-    @total_rotators
+    @overall_rotators
   end
 
   def order_of_rotators(message)
     @shift_rotator = (message.length - 7) % 4
-    @shift_rotator
   end
 
   def combined_rotation(message)
     overall_rotators(message)
     order_of_rotators(message)
     if @shift_rotator == 1
-      @overall_rotations = @total_rotators
+      @combined_rotations = @overall_rotators
     elsif @shift_rotator == 2
-      @overall_rotations = [@total_rotators[3], @total_rotators[0], @total_rotators[1], @total_rotators[2]]
+      @combined_rotations = [@overall_rotators[3], @overall_rotators[0], @overall_rotators[1], @overall_rotators[2]]
     elsif @shift_rotator == 3
-      @overall_rotations = [@total_rotators[2], @total_rotators[3], @total_rotators[0], @total_rotators[1]]
+      @combined_rotations = [@overall_rotators[2], @overall_rotators[3], @overall_rotators[0], @overall_rotators[1]]
     elsif @shift_rotator == 0
-      @overall_rotations = [@total_rotators[1], @total_rotators[2], @total_rotators[3], @total_rotators[0]]
+      @combined_rotations = [@overall_rotators[1], @overall_rotators[2], @overall_rotators[3], @overall_rotators[0]]
     end
-    @overall_rotations
+    @combined_rotations
   end
 
   def crack(message, date = @date)

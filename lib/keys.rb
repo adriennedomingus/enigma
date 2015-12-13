@@ -1,4 +1,5 @@
 class Keys
+    attr_accessor :key
 
   def initialize(message, key, date)
     @key = "%05d" % key
@@ -61,8 +62,8 @@ class Keys
     b_overall_rotation = @date_rotations[1] + @key_rotations[1]
     c_overall_rotation = @date_rotations[2] + @key_rotations[2]
     d_overall_rotation = @date_rotations[3] + @key_rotations[3]
-    @overall_rotations = [a_overall_rotation, b_overall_rotation, c_overall_rotation, d_overall_rotation]
-    @overall_rotations
+    @combined_rotations = [a_overall_rotation, b_overall_rotation, c_overall_rotation, d_overall_rotation]
+    @combined_rotations
   end
 
   def map_letter(letter)
@@ -87,10 +88,10 @@ class Keys
     rotators = []
     shovels = (initial_indices.length / 4.0).ceil
     shovels.times do
-      rotators << @overall_rotations[0]
-      rotators << @overall_rotations[1]
-      rotators << @overall_rotations[2]
-      rotators << @overall_rotations[3]
+      rotators << @combined_rotations[0]
+      rotators << @combined_rotations[1]
+      rotators << @combined_rotations[2]
+      rotators << @combined_rotations[3]
     end
     until rotators.length == initial_indices.length
       rotators.pop

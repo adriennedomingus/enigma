@@ -2,8 +2,6 @@ require_relative 'keys'
 
 class Encrypt < Keys
 
-  attr_accessor :key
-
   def rotate_message(message)
     indices_and_rotators = which_rotator(message)
     new_indices = []
