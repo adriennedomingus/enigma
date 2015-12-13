@@ -1,7 +1,11 @@
 class Encrypt
-  def initialize(key = @key, date = @date)
-    @key = key
+
+  attr_accessor :key
+
+  def initialize(message, key, date)
+    @key = "%05d" % key
     @date = date
+    @message = message
   end
 
   def character_chart
@@ -102,7 +106,9 @@ class Encrypt
     i = 0
     indices_and_rotators.length.times do
       i += 1
-      new_indices << (indices_and_rotators[i-1][0] + (indices_and_rotators[i-1][1] % 39))
+      new_indices << ((indices_and_rotators[i - 1][0]) + ((indices_and_rotators[i - 1][1] % 39)))
+      # require 'pry'
+      # binding.pry
      end
      new_indices.map do |index|
        if index > 38
@@ -127,4 +133,15 @@ class Encrypt
     encrypted_message.join
   end
 
+end
+
+
+if __FILE__ == $PROGRAM_NAME
+  message = File.read(ARGV[0]).chomp
+  p message
+  e = Encrypt.new(message, 12345, Time.now)
+  encrypted = e.encrypt(message, 12345, Time.now)
+  f = File.new(ARGV[1], "w")
+  f.write(encrypted)
+  puts "Created #{ARGV[1]} with key #{e.key} and date #{Time.now.strftime("%d%m%y").to_i}"
 end

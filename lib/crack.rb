@@ -70,3 +70,12 @@ class Crack < Decrypt
   end
 
 end
+
+if __FILE__ == $PROGRAM_NAME
+  message = File.read(ARGV[0]).chomp
+  c = Crack.new(Time.now)
+  cracked = c.crack(message, Time.now)
+  f = File.new(ARGV[1], "w")
+  f.write(cracked)
+  puts "Created #{ARGV[1]} with key #{c.combined_rotation(message).join} and date #{Time.now.strftime("%d%m%y").to_i}"
+end

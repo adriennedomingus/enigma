@@ -2,11 +2,6 @@ require_relative 'encrypt'
 
 class Decrypt < Encrypt
 
-  def initialize(key, date)
-    @key = key
-    @date = date
-  end
-
   def rotate_encrypted_message(message)
     indices_and_rotators = which_rotator(message)
     new_indices = []
@@ -37,4 +32,13 @@ class Decrypt < Encrypt
     end
     decrypted_message.join
   end
+end
+
+if __FILE__ == $PROGRAM_NAME
+  message = File.read(ARGV[0]).chomp
+  d = Decrypt.new(message, 12345, Time.now)
+  decrypted = d.decrypt(message, 12345, Time.now)
+  f = File.new(ARGV[1], "w")
+  f.write(decrypted)
+  puts "Created #{ARGV[1]} with key #{d.key} and date #{Time.now.strftime("%d%m%y").to_i}"
 end

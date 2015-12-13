@@ -5,16 +5,16 @@ require_relative 'crack'
 class Enigma < Encrypt
 
   def initialize(key = Random.rand(0..99999).to_s, date = Time.now.strftime("%d%m%y").to_i)
-    @key = key
+    @key = "%05d" % key
     @date = date
   end
 
   def encrypt(message, key = @key, date = @date)
-    Encrypt.new(key, date).encrypt(message, key, date)
+    Encrypt.new(message, key, date).encrypt(message, key, date)
   end
 
   def decrypt(message, key = @key, date = @date)
-    Decrypt.new(key, date).decrypt(message, key, date)
+    Decrypt.new(message, key, date).decrypt(message, key, date)
   end
 
   def crack(message, date = @date)
