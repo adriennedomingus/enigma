@@ -4,6 +4,11 @@ require_relative '../lib/enigma'
 
 class EnigmaTest < MiniTest::Test
 
+  def test_it_inherits_from_encrypt
+    result = Encrypt
+    assert_equal result, Enigma.superclass
+  end
+
   def test_it_generates_a_random_key
     skip
   end

@@ -21,6 +21,12 @@ class KeysTest < MiniTest::Test
     assert all_fives
   end
 
+  def test_it_creates_a_hash_with_all_characters_mapped_to_indices
+    static_date = Time.new 2015, 12, 10
+    e = Keys.new(message, 54321, static_date)
+    assert_equal 12, e.character_chart["m"]
+  end
+
   def test_it_generates_a_four_digit_key_based_on_todays_date
     static_date = Time.new 2015, 12, 10
     e = Keys.new(message, 54321, static_date)
@@ -68,7 +74,7 @@ class KeysTest < MiniTest::Test
     assert_equal result, e.map_letter("m")
   end
 
-  def test_it_maps_a_word_to_all_indices
+  def test_it_maps_a_message_to_all_indices
     static_date = Time.new 2015, 12, 10
     e = Keys.new(message, 54321, static_date)
     result = [12, 4, 18, 18, 0, 6, 4]

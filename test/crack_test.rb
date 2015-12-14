@@ -4,6 +4,11 @@ require_relative '../lib/crack'
 
 class CrackTest < MiniTest::Test
 
+  def test_it_inherits_from_decrypt
+    result = Decrypt
+    assert_equal result, Crack.superclass
+  end
+
   def test_it_shrinks_the_message_to_4_characters
     static_date = Time.new 2015, 12, 10
     c = Crack.new(static_date)

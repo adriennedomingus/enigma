@@ -56,16 +56,7 @@ class Crack < Decrypt
   end
 
   def crack(message, date = @date)
-    new_indices = rotate_encrypted_message(message)
-    decrypted_message = []
-    new_indices.each do |index|
-      @characters_and_indices.each do |character, location|
-        if index == location
-          decrypted_message << character
-        end
-      end
-    end
-    decrypted_message.join
+    decrypt(message, date)
   end
 
 end

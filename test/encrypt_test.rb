@@ -4,6 +4,11 @@ require_relative '../lib/encrypt'
 
 class EncryptTest < MiniTest::Test
 
+  def test_it_inherits_from_keys
+    result = Keys
+    assert_equal result, Encrypt.superclass
+  end
+
   def test_it_rotates_the_message_to_new_index
     static_date = Time.new 2015, 12, 10
     e = Encrypt.new(message, 54321, static_date)

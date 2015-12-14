@@ -11,11 +11,7 @@ class Decrypt < Keys
       new_indices << (indices_and_rotators[i-1][0] - (indices_and_rotators[i-1][1] % 39))
      end
      new_indices.map do |index|
-       if index < 0
-         index + 39
-       else
-         index
-       end
+       index < 0 ? index + 39 : index
      end
   end
 
@@ -36,8 +32,8 @@ end
 
 if __FILE__ == $PROGRAM_NAME
   message = File.read(ARGV[0]).chomp
-  d = Decrypt.new(message, 12345, Time.now)
-  decrypted = d.decrypt(message, 12345, Time.now)
+  d = Decrypt.new(message, 82337, Time.now)
+  decrypted = d.decrypt(message, 82337, Time.now)
   f = File.new(ARGV[1], "w")
   f.write(decrypted)
   puts "Created #{ARGV[1]} with key #{d.key} and date #{Time.now.strftime("%d%m%y").to_i}"

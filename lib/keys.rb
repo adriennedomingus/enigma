@@ -25,7 +25,7 @@ class Keys
     characters << ","
     characters = characters.flatten
     indices = []
-    indices = (0..38).to_a.flatten
+    indices = (0..38).to_a
     @characters_and_indices = Hash[characters.zip(indices)]
   end
 
@@ -33,37 +33,27 @@ class Keys
     @date = Time.now.strftime("%d%m%y").to_i
     offset = @date ** 2
     @date_key = offset.to_s.split("")[-4..-1].join
-    @date_key
   end
 
   def date_rotation
     date_offset
-    a_date_rotation = @date_key[0].to_i
-    b_date_rotation = @date_key[1].to_i
-    c_date_rotation = @date_key[2].to_i
-    d_date_rotation = @date_key[3].to_i
-    @date_rotations = [a_date_rotation, b_date_rotation, c_date_rotation, d_date_rotation]
-    @date_rotations
+    @date_rotations = [@date_key[0].to_i, @date_key[1].to_i, @date_key[2].to_i, @date_key[3].to_i]
   end
 
   def key_rotation
-    a_key_rotation = @key.to_s[0..1].to_i
-    b_key_rotation = @key.to_s[1..2].to_i
-    c_key_rotation = @key.to_s[2..3].to_i
-    d_key_rotation = @key.to_s[3..4].to_i
-    @key_rotations = [a_key_rotation, b_key_rotation, c_key_rotation, d_key_rotation]
-    @key_rotations
+    @key_rotations = [@key.to_s[0..1].to_i,
+                      @key.to_s[1..2].to_i,
+                      @key.to_s[2..3].to_i,
+                      @key.to_s[3..4].to_i]
   end
 
   def combined_rotation(message)
     date_rotation
     key_rotation
-    a_overall_rotation = @date_rotations[0] + @key_rotations[0]
-    b_overall_rotation = @date_rotations[1] + @key_rotations[1]
-    c_overall_rotation = @date_rotations[2] + @key_rotations[2]
-    d_overall_rotation = @date_rotations[3] + @key_rotations[3]
-    @combined_rotations = [a_overall_rotation, b_overall_rotation, c_overall_rotation, d_overall_rotation]
-    @combined_rotations
+    @combined_rotations = [@date_rotations[0] + @key_rotations[0],
+                           @date_rotations[1] + @key_rotations[1],
+                           @date_rotations[2] + @key_rotations[2],
+                           @date_rotations[3] + @key_rotations[3]]
   end
 
   def map_letter(letter)
