@@ -8,10 +8,10 @@ class Encrypt < Keys
     i = 0
     indices_and_rotators.length.times do
       i += 1
-      new_indices << ((indices_and_rotators[i - 1][0]) + ((indices_and_rotators[i - 1][1] % 39)))
+      new_indices << ((indices_and_rotators[i - 1][0]) + ((indices_and_rotators[i - 1][1] % 85)))
      end
      new_indices.map do |index|
-       index > 38 ? index - 39 : index
+       index > 84 ? index - 85 : index
      end
   end
 
@@ -38,5 +38,5 @@ if __FILE__ == $PROGRAM_NAME
   encrypted = e.encrypt(message, Random.rand(0..99999), Time.now)
   f = File.new(ARGV[1], "w")
   f.write(encrypted)
-  puts "Created #{ARGV[1]} with key #{e.key} and date #{Time.now.strftime("%d%m%y").to_i}"
+  puts "Created #{ARGV[1]} with key# #{e.key} and date #{Time.now.strftime("%d%m%y").to_i}"
 end

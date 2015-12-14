@@ -8,15 +8,15 @@ class Decrypt < Keys
     i = 0
     indices_and_rotators.length.times do
       i += 1
-      new_indices << (indices_and_rotators[i-1][0] - (indices_and_rotators[i-1][1] % 39))
+      new_indices << (indices_and_rotators[i-1][0] - (indices_and_rotators[i-1][1] % 85))
      end
      new_indices.map do |index|
-       index < 0 ? index + 39 : index
+       index < 0 ? index + 85 : index
      end
   end
 
   def decrypt(message, key = @key, date = @date)
-    message = message.downcase
+    # message = message.downcase
     new_indices = rotate_encrypted_message(message)
     decrypted_message = []
     new_indices.each do |index|

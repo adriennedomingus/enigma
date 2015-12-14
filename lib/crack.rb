@@ -15,7 +15,7 @@ class Crack < Decrypt
   end
 
   def end_indices
-    [13, 3, 37, 37]
+    [13, 3, 76, 76]
   end
 
   def overall_rotators(message)
@@ -27,7 +27,7 @@ class Crack < Decrypt
       i += 1
       rotator = @message_end[i - 1] - end_indices[i-1]
       if rotator < 0
-        rotator = rotator + 39
+        rotator = rotator + 85
       else
         rotator
       end

@@ -12,21 +12,21 @@ class EncryptTest < MiniTest::Test
   def test_it_rotates_the_message_to_new_index
     static_date = Time.new 2015, 12, 10
     e = Encrypt.new(message, 54321, static_date)
-    result = [33, 10, 13, 5, 21, 12, 38]
+    result = [72, 49, 52, 44, 60, 51, 38]
     assert_equal result, e.rotate_message("message")
   end
 
   def test_it_maps_new_index_to_new_message
     static_date = Time.new 2015, 12, 10
     e = Encrypt.new(message, 54321, static_date)
-    result = "7knfvm,"
+    result = "[X0S8ZM"
     assert_equal result, e.encrypt("message")
   end
 
   def test_it_encrypts_a_message
     static_date = Time.new 2015, 12, 10
     e = Encrypt.new(message, 97521, static_date)
-    result = "fd7gw n4,cny"
+    result = "L/[Th&TEF:Tr"
     assert_equal result, e.encrypt("test ..end..")
   end
 
