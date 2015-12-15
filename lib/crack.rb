@@ -18,13 +18,12 @@ class Crack < Decrypt
   end
 
   def overall_rotators(message)
-    end_indices
     map_last_four_of_encrypted(message)
-    i = 0
+    index = 0
     @overall_rotators = []
     4.times do
-      i += 1
-      rotator = @message_end[i - 1] - end_indices[i-1]
+      index += 1
+      rotator = @message_end[index - 1] - end_indices[index - 1]
       rotator < 0 ? rotator = rotator + 85 : rotator
       @overall_rotators << rotator
     end

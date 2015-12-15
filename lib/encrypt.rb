@@ -17,7 +17,7 @@ class Encrypt < Keys
     indices_and_rotators.length.times do
       i += 1
       new_indices << ((indices_and_rotators[i - 1][0]) + ((indices_and_rotators[i - 1][1] % 85)))
-     end
+    end
      new_indices.map do |index|
        index > 84 ? index - 85 : index
      end

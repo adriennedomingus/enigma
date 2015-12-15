@@ -38,11 +38,18 @@ class EncryptTest < MiniTest::Test
     assert_equal result, e.encrypt("message")
   end
 
-  def test_it_encrypts_a_message
+  def test_it_does_not_encrypt_message_with_unsupported_characters
     static_date = Time.new 2015, 12, 10
     e = Encrypt.new(message, 97521, static_date)
     result = "L/[Th&TEF:Tr"
     assert_equal result, e.encrypt("test ..end..")
+  end
+
+  def test_it_encrypts_a_message
+    static_date = Time.new 2015, 12, 10
+    e = Encrypt.new(message, 97521, static_date)
+    result = "Sorry, your message includes unsupported characters"
+    assert_equal result, e.encrypt("test- ..end..")
   end
 
 end
