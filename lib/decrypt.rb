@@ -16,7 +16,6 @@ class Decrypt < Keys
   end
 
   def decrypt(message, key = @key, date = @date)
-    # message = message.downcase
     new_indices = rotate_encrypted_message(message)
     decrypted_message = []
     new_indices.each do |index|

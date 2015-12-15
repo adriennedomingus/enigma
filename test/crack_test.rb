@@ -37,6 +37,13 @@ class CrackTest < MiniTest::Test
     assert_equal result, c.combined_rotation("JmPOfnZlItwOuhYAJ;ynusKnh")
   end
 
+  def test_it_cracks_the_key
+    static_date = Time.new 2015, 12, 10
+    c = Crack.new(static_date)
+    result = 10317
+    assert_equal result, c.crack_key("JmPOfnZlItwOuhYAJ;ynusKnh")
+  end
+
   def test_it_decrypts_message
     static_date = Time.new 2015, 12, 10
     c = Crack.new(static_date)

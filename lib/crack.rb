@@ -7,9 +7,8 @@ class Crack < Decrypt
 
   def map_last_four_of_encrypted(message)
     @message_end = map_message(message)
-    loop do
+    until @message_end.length == 4
       @message_end.shift
-      break if @message_end.length == 4
     end
     @message_end
   end
@@ -26,11 +25,7 @@ class Crack < Decrypt
     4.times do
       i += 1
       rotator = @message_end[i - 1] - end_indices[i-1]
-      if rotator < 0
-        rotator = rotator + 85
-      else
-        rotator
-      end
+      rotator < 0 ? rotator = rotator + 85 : rotator
       @overall_rotators << rotator
     end
     @overall_rotators
@@ -55,6 +50,26 @@ class Crack < Decrypt
     @combined_rotations
   end
 
+  def crack_key(message)
+    combined_rotation(message)
+    date_rotation
+    keys = [@combined_rotations[0] - @date_rotations[0],
+           @combined_rotations[1] - @date_rotations[1],
+           @combined_rotations[2] - @date_rotations[2],
+           @combined_rotations[3] - @date_rotations[3]]
+    new_keys = []
+    keys.map do |key|
+      key = "%02d" % key
+      new_keys << key.to_s.chars
+    end
+    final_keys = new_keys.flatten
+    final_keys.delete_at(1)
+    final_keys.delete_at(2)
+    final_keys.delete_at(4)
+    actual_key = final_keys.join.to_i
+    return actual_key
+  end
+
   def crack(message, date = @date)
     decrypt(message, date)
   end
@@ -67,5 +82,5 @@ if __FILE__ == $PROGRAM_NAME
   cracked = c.crack(message, Time.now)
   f = File.new(ARGV[1], "w")
   f.write(cracked)
-  puts "Created #{ARGV[1]} with key #{c.combined_rotation(message).join} and date #{Time.now.strftime("%d%m%y").to_i}"
+  puts "Created #{ARGV[1]} with key #{c.crack_key(message)} and date #{Time.now.strftime("%d%m%y").to_i}"
 end

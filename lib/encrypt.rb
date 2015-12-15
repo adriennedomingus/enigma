@@ -16,7 +16,6 @@ class Encrypt < Keys
   end
 
   def encrypt(message, key = @key, date = @date)
-    message = message.downcase
     new_indices = rotate_message(message)
     encrypted_message = []
     new_indices.each do |index|

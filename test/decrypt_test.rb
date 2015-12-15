@@ -16,9 +16,6 @@ class DecryptTest < MiniTest::Test
     assert_equal result, d.rotate_encrypted_message("L/[Th&TEF:Tr")
   end
 
-  # def test_all_indices_are_less_than_39
-  # end
-
   def test_it_decrypts_message
     static_date = Time.new 2015, 12, 10
     e = Decrypt.new(message, 97521, static_date)
