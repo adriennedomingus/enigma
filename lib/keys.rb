@@ -21,12 +21,6 @@ class Keys
                                ":" => 80, "/" => 81, "?" => 82, "\\" => 83, "|" => 84}
   end
 
-  def verify_message(message)
-    message.chars.each do |character|
-      @characters_and_indices.has_key?(character) ? true : "Sorry, your message includes unsupported characters"
-    end
-  end
-
   def date_offset
     @date = Time.now.strftime("%d%m%y").to_i
     offset = @date ** 2

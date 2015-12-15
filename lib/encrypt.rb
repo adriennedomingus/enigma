@@ -2,6 +2,14 @@ require_relative 'keys'
 
 class Encrypt < Keys
 
+  def verify_message(message)
+    character_chart
+    verified = message.chars.map do |character|
+      @characters_and_indices.has_key?(character) ? true : false
+    end
+    verified.all? ? true : false
+  end
+
   def rotate_message(message)
     indices_and_rotators = which_rotator(message)
     new_indices = []
@@ -16,20 +24,23 @@ class Encrypt < Keys
   end
 
   def encrypt(message, key = @key, date = @date)
-    new_indices = rotate_message(message)
-    encrypted_message = []
-    new_indices.each do |index|
-      @characters_and_indices.each do |character, location|
-        if index == location
-          encrypted_message << character
+    if verify_message(message) == true
+      new_indices = rotate_message(message)
+      encrypted_message = []
+      new_indices.each do |index|
+        @characters_and_indices.each do |character, location|
+          if index == location
+            encrypted_message << character
+          end
         end
       end
+      return encrypted_message.join
+    else
+      "Sorry, your message includes unsupported characters"
     end
-    encrypted_message.join
   end
 
 end
-
 
 if __FILE__ == $PROGRAM_NAME
   message = File.read(ARGV[0]).chomp
