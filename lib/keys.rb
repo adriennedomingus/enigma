@@ -80,4 +80,5 @@ class Keys
     end
     initial_indices.zip(rotators)
   end
+
 end

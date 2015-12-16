@@ -31,14 +31,14 @@ class EnigmaTest < MiniTest::Test
     static_date = Time.new 2015, 12, 10
     e = Enigma.new(97521, static_date)
     result = "L/[Th&TEF:Tr"
-    assert_equal result, e.encrypt("test ..end..", 97521, static_date)
+    assert_equal result, e.encrypt("test ..end..", "97521", static_date)
   end
 
   def test_it_decrypts_message
     static_date = Time.new 2015, 12, 10
     e = Enigma.new(97521, static_date)
     result = "test ..end.."
-    assert_equal result, e.decrypt("L/[Th&TEF:Tr", 97521, static_date)
+    assert_equal result, e.decrypt("L/[Th&TEF:Tr", "97521", static_date)
   end
 
   def test_it_cracks_and_decrypts_message

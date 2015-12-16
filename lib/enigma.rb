@@ -11,11 +11,11 @@ class Enigma < Encrypt
   end
 
   def encrypt(message, key = @key, date = @date)
-    Encrypt.new(message, key, date).encrypt(message, key, date)
+    Encrypt.new(message, key.to_i, date).encrypt(message, key.to_i, date)
   end
 
   def decrypt(message, key = @key, date = @date)
-    Decrypt.new(message, key, date).decrypt(message, key, date)
+    Decrypt.new(message, key.to_i, date).decrypt(message, key.to_i, date)
   end
 
   def crack(message, date = @date)
