@@ -12,9 +12,6 @@ class Encrypt < Keys
 
   def rotate_message(message)
     rotate_indices(message) { |initial, rotation| initial + rotation }
-     @new_indices.map do |index|
-       index > 84 ? index - 85 : index
-     end
   end
 
   def encrypt(message, key = @key, date = @date)

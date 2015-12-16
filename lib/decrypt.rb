@@ -3,10 +3,7 @@ require_relative 'keys'
 class Decrypt < Keys
 
   def rotate_encrypted_message(message)
-  rotate_indices(message) { |initial, rotation| initial - rotation }
-     @new_indices.map do |index|
-       index < 0 ? index + 85 : index
-     end
+    rotate_indices(message) { |initial, rotation| initial - rotation }   
   end
 
   def decrypt(message, key = @key, date = @date)

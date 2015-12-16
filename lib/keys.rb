@@ -83,11 +83,14 @@ class Keys
 
   def rotate_indices(message, &block)
     indices_and_rotators = which_rotator(message)
-    @new_indices = []
+    new_indices = []
     i = 0
     indices_and_rotators.length.times do
       i += 1
-      @new_indices << block.call(indices_and_rotators[i-1][0], indices_and_rotators[i-1][1] % 85)
+      new_indices << block.call(indices_and_rotators[i-1][0], indices_and_rotators[i-1][1] % 85)
+    end
+    new_indices.map do |index|
+      index % 85
     end
   end
 
