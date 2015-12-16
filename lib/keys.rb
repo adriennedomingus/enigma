@@ -81,4 +81,16 @@ class Keys
     initial_indices.zip(rotators)
   end
 
+  def new_message
+    new_message = []
+    @new_indices.each do |index|
+      @characters_and_indices.each do |character, location|
+        if index == location
+          new_message << character
+        end
+      end
+    end
+    new_message.join
+  end
+
 end

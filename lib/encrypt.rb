@@ -25,16 +25,8 @@ class Encrypt < Keys
 
   def encrypt(message, key = @key, date = @date)
     if verify_message(message) == true
-      new_indices = rotate_message(message)
-      encrypted_message = []
-      new_indices.each do |index|
-        @characters_and_indices.each do |character, location|
-          if index == location
-            encrypted_message << character
-          end
-        end
-      end
-      return encrypted_message.join
+      @new_indices = rotate_message(message)
+      new_message
     else
       "Sorry, your message includes unsupported characters"
     end

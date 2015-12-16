@@ -1,6 +1,5 @@
 language: ruby
 install: true
-
-group :test do
-  gem 'rake'
-end
+gemfile:
+  -Gemfile
+  -gem "rake"
