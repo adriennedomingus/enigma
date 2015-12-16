@@ -23,20 +23,3 @@ if __FILE__ == $PROGRAM_NAME
   f.write(decrypted)
   puts "Created #{ARGV[1]} with key #{d.key} and date #{Time.now.strftime("%d%m%y").to_i}"
 end
-
-# def rotate(initial, rotation)
-#   initial - rotation
-# end
-#
-# def rotate_indices(&block)
-#   i = 3
-#   indices_and_rotators = [[1, 5],[4, 83],[8, 2],[23, 9]]
-#   block.call(indices_and_rotators[i-1][0], indices_and_rotators[i-1][1] % 85)
-#
-# end
-#
-# 6
-# rotate_indices { |initial, rotation| initial - rotation } # => 6
-#
-# 10
-# rotate_indices { |initial, rotation| initial + rotation } # => 10
