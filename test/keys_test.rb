@@ -75,7 +75,6 @@ class KeysTest < MiniTest::Test
     assert_equal result, e.combined_rotation("message")
   end
 
-
   def test_it_maps_a_single_letter_to_its_index
     static_date = Time.new 2015, 12, 10
     e = Keys.new(message, 54321, static_date)

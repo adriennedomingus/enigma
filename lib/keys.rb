@@ -81,6 +81,16 @@ class Keys
     initial_indices.zip(rotators)
   end
 
+  def rotate_indices(message, &block)
+    indices_and_rotators = which_rotator(message)
+    @new_indices = []
+    i = 0
+    indices_and_rotators.length.times do
+      i += 1
+      @new_indices << block.call(indices_and_rotators[i-1][0], indices_and_rotators[i-1][1] % 85)
+    end
+  end
+
   def new_message
     new_message = []
     @new_indices.each do |index|
