@@ -1,5 +1,4 @@
 language: ruby
-install: true
-gemfile:
-  -Gemfile
-  -gem "rake"
+script: bundle exec mrspec --color
+rvm:
+  - 2.2.2

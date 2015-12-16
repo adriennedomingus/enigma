@@ -13,15 +13,13 @@ class EncryptTest < MiniTest::Test
   def test_it_verifies_the_message_doesnt_contain_unsupported_characters
     static_date = Time.new 2015, 12, 10
     e = Encrypt.new(message, 54321, static_date)
-    result = false
-    assert_equal result, e.verify_message("hello-")
+    refute e.verify_message("hello-")
   end
 
   def test_it_only_throws_error_if_message_contains_unsupported_characters
     static_date = Time.new 2015, 12, 10
     e = Encrypt.new(message, 54321, static_date)
-    result = true
-    assert_equal result, e.verify_message("hello")
+    assert e.verify_message("hello")
   end
 
   def test_it_rotates_the_message_to_new_index
