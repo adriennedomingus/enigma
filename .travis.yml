@@ -1,2 +1,6 @@
 language: ruby
 install: true
+
+group :test do
+  gem 'rake'
+end
