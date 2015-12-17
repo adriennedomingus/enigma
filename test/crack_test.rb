@@ -22,7 +22,8 @@ class CrackTest < MiniTest::Test
     static_date = Time.new 2015, 12, 10
     c = Crack.new(static_date)
     result = [5, 33, 22, 16]
-    assert_equal result, c.overall_rotators("JmPOfnZlItwOuhYAJ;ynusKnh")
+    c.find_overall_rotators("JmPOfnZlItwOuhYAJ;ynusKnh")
+    assert_equal result, c.overall_rotators
   end
 
   def test_it_returns_a_number_by_which_to_shift_rotators

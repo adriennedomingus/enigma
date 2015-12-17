@@ -1,6 +1,8 @@
 require_relative 'decrypt'
 
 class Crack < Decrypt
+  attr_reader :overall_rotators
+
   def initialize(date)
     @date = date
   end
@@ -17,17 +19,14 @@ class Crack < Decrypt
     [13, 3, 76, 76]
   end
 
-  def overall_rotators(message)
+  def find_overall_rotators(message)
     map_last_four_of_encrypted(message)
-    index = 0
     @overall_rotators = []
-    4.times do
-      index += 1
-      rotator = @message_end[index - 1] - end_indices[index - 1]
+    4.times do |index|
+      rotator = @message_end[index] - end_indices[index]
       rotator < 0 ? rotator = rotator + 85 : rotator
       @overall_rotators << rotator
     end
-    @overall_rotators
   end
 
   def order_of_rotators(message)
@@ -35,18 +34,18 @@ class Crack < Decrypt
   end
 
   def combined_rotation(message)
-    overall_rotators(message)
+    find_overall_rotators(message)
     order_of_rotators(message)
-    if @shift_rotator == 1
-      @combined_rotations = @overall_rotators
-    elsif @shift_rotator == 2
-      @combined_rotations = [@overall_rotators[3], @overall_rotators[0], @overall_rotators[1], @overall_rotators[2]]
-    elsif @shift_rotator == 3
-      @combined_rotations = [@overall_rotators[2], @overall_rotators[3], @overall_rotators[0], @overall_rotators[1]]
-    elsif @shift_rotator == 0
-      @combined_rotations = [@overall_rotators[1], @overall_rotators[2], @overall_rotators[3], @overall_rotators[0]]
+    set_combined_rotations
+  end
+
+  def set_combined_rotations
+    case @shift_rotator
+    when 1 then @combined_rotations = @overall_rotators
+    when 2 then @combined_rotations = @overall_rotators.rotate(3)
+    when 3 then @combined_rotations = @overall_rotators.rotate(2)
+    when 0 then @combined_rotations = @overall_rotators.rotate
     end
-    @combined_rotations
   end
 
   def crack_key(message)

@@ -39,13 +39,18 @@ class Keys
                       @key.to_s[3..4].to_i]
   end
 
+  def find_all_rotations
+    [find_rotations(0), find_rotations(1), find_rotations(2), find_rotations(3)]
+  end
+
+  def find_rotations(index)
+    @date_rotations[index] + @key_rotations[index]
+  end
+
   def combined_rotation(message)
     date_rotation
     key_rotation
-    @combined_rotations = [@date_rotations[0] + @key_rotations[0],
-                           @date_rotations[1] + @key_rotations[1],
-                           @date_rotations[2] + @key_rotations[2],
-                           @date_rotations[3] + @key_rotations[3]]
+    @combined_rotations = find_all_rotations
   end
 
   def map_letter(letter)
@@ -67,18 +72,13 @@ class Keys
   def which_rotator(message)
     combined_rotation(message)
     initial_indices = map_message(message)
-    rotators = []
-    shovels = (initial_indices.length / 4.0).ceil
-    shovels.times do
-      rotators << @combined_rotations[0]
-      rotators << @combined_rotations[1]
-      rotators << @combined_rotations[2]
-      rotators << @combined_rotations[3]
+    combine_intial_indices_with_correct_rotator(initial_indices)
+  end
+
+  def combine_intial_indices_with_correct_rotator(indices)
+    indices.map.with_index do |num, i|
+      [num, @combined_rotations[i % 4]]
     end
-    until rotators.length == initial_indices.length
-      rotators.pop
-    end
-    initial_indices.zip(rotators)
   end
 
   def rotate_indices(message, &block)
