@@ -51,21 +51,29 @@ class Crack < Decrypt
   def crack_key(message)
     combined_rotation(message)
     date_rotation
-    keys = [@combined_rotations[0] - @date_rotations[0],
-           @combined_rotations[1] - @date_rotations[1],
-           @combined_rotations[2] - @date_rotations[2],
-           @combined_rotations[3] - @date_rotations[3]]
-    new_keys = []
-    keys.map do |key|
+    @keys = [find_key_rotation(0), find_key_rotation(1), find_key_rotation(2),find_key_rotation(3)]
+    @new_keys = []
+    key_to_two_digits
+    delete_duplicate_key_digits
+    @final_keys.join.to_i
+  end
+
+  def delete_duplicate_key_digits
+    @final_keys = @new_keys.flatten
+    @final_keys.delete_at(1)
+    @final_keys.delete_at(2)
+    @final_keys.delete_at(4)
+  end
+
+  def find_key_rotation(index)
+    @combined_rotations[index] - @date_rotations[index]
+  end
+
+  def key_to_two_digits
+    @keys.map do |key|
       key = "%02d" % key
-      new_keys << key.to_s.chars
+      @new_keys << key.to_s.chars
     end
-    final_keys = new_keys.flatten
-    final_keys.delete_at(1)
-    final_keys.delete_at(2)
-    final_keys.delete_at(4)
-    actual_key = final_keys.join.to_i
-    return actual_key
   end
 
   def crack(message, date = @date)
