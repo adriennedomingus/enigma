@@ -85,8 +85,8 @@ end
 if __FILE__ == $PROGRAM_NAME
   message = File.read(ARGV[0]).chomp
   c = Crack.new(Time.now)
-  cracked = c.crack(message, Time.now)
+  cracked = c.crack(message, ARGV[2])
   f = File.new(ARGV[1], "w")
   f.write(cracked)
-  puts "Created #{ARGV[1]} with key #{c.crack_key(message)} and date #{Time.now.strftime("%d%m%y").to_i}"
+  puts "Created #{ARGV[1]} with key #{c.crack_key(message)} and date #{ARGV[2]}"
 end
