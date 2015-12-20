@@ -1,30 +1,33 @@
 class Keys
     attr_accessor :key
 
+    CHARACTER_CHART = {"a" => 0, "b" => 1, "c" => 2, "d" => 3, "e" => 4, "f" => 5, "g" => 6, "h" => 7,
+                        "i" => 8, "j" => 9, "k" => 10, "l" => 11, "m" => 12, "n" => 13, "o" => 14, "p" => 15,
+                        "q" => 16, "r" => 17, "s" => 18, "t" => 19, "u" => 20, "v" => 21, "w" => 22, "x" => 23,
+                        "y" => 24, "z" => 25, "A" => 26, "B" => 27, "C" => 28, "D" => 29, "E" => 30, "F" => 31,
+                        "G" => 32, "H" => 33, "I" => 34, "J" => 35, "K" => 36, "L" => 37, "M" => 38, "N" => 39,
+                        "O" => 40, "P" => 41, "Q" => 42, "R" => 43, "S" => 44, "T" => 45, "U" => 46, "V" =>47,
+                         "W" => 48, "X" => 49, "Y" => 50, "Z" => 51, "0" => 52, "1" => 53, "2" => 54, "3" => 55,
+                         "4" => 56, "5" => 57, "6" => 58, "7" => 59, "8" => 60, "9" => 61, "!" => 62, "@" => 63,
+                         "#" => 64, "$" => 65, "%" => 66, "^" => 67, "&" => 68, "*" => 69, "(" => 70, ")" => 71,
+                         "[" => 72, "]" => 73, " " => 74, "," => 75, "." => 76, "<" => 77, ">" => 78, ";" => 79,
+                         ":" => 80, "/" => 81, "?" => 82, "\\" => 83, "|" => 84}
+  private_constant :CHARACTER_CHART
+
   def initialize(message, key, date)
     @key = "%05d" % key
     @date = date
     @message = message
   end
 
-  def character_chart
-    @characters_and_indices = {"a" => 0, "b" => 1, "c" => 2, "d" => 3, "e" => 4, "f" => 5, "g" => 6, "h" => 7,
-                              "i" => 8, "j" => 9, "k" => 10, "l" => 11, "m" => 12, "n" => 13, "o" => 14, "p" => 15,
-                              "q" => 16, "r" => 17, "s" => 18, "t" => 19, "u" => 20, "v" => 21, "w" => 22, "x" => 23,
-                              "y" => 24, "z" => 25, "A" => 26, "B" => 27, "C" => 28, "D" => 29, "E" => 30, "F" => 31,
-                              "G" => 32, "H" => 33, "I" => 34, "J" => 35, "K" => 36, "L" => 37, "M" => 38, "N" => 39,
-                              "O" => 40, "P" => 41, "Q" => 42, "R" => 43, "S" => 44, "T" => 45, "U" => 46, "V" =>47,
-                               "W" => 48, "X" => 49, "Y" => 50, "Z" => 51, "0" => 52, "1" => 53, "2" => 54, "3" => 55,
-                               "4" => 56, "5" => 57, "6" => 58, "7" => 59, "8" => 60, "9" => 61, "!" => 62, "@" => 63,
-                               "#" => 64, "$" => 65, "%" => 66, "^" => 67, "&" => 68, "*" => 69, "(" => 70, ")" => 71,
-                               "[" => 72, "]" => 73, " " => 74, "," => 75, "." => 76, "<" => 77, ">" => 78, ";" => 79,
-                               ":" => 80, "/" => 81, "?" => 82, "\\" => 83, "|" => 84}
+  def valid_character?(char)
+    character_chart.key?(char)
   end
 
   def date_offset
     @date = Time.now.strftime("%d%m%y").to_i
     offset = @date ** 2
-    @date_key = offset.to_s.split("")[-4..-1].join
+    @date_key = offset.to_s.chars.last(4).join
   end
 
   def date_rotation
@@ -54,8 +57,7 @@ class Keys
   end
 
   def map_letter(letter)
-    character_chart
-    @characters_and_indices.each do |character, index|
+    CHARACTER_CHART.each do |character, index|
       if letter == character
         return index
       end
@@ -81,29 +83,25 @@ class Keys
     end
   end
 
-  def rotate_indices(message, &block)
+  def rotate_indices(message)
     indices_and_rotators = which_rotator(message)
-    @new_indices = []
-    indices_and_rotators.length.times do |i|
-      @new_indices << block.call(indices_and_rotators[i][0], indices_and_rotators[i][1] % 85)
+    @new_indices = indices_and_rotators.length.times.map do |i|
+      yield indices_and_rotators[i][0], indices_and_rotators[i][1] % 85
     end
-    ensure_valid_rotator
+    valid_rotator
   end
 
-  def ensure_valid_rotator
+  def valid_rotator
     @new_indices.map do |index|
       index % 85
     end
   end
 
   def new_message
-    ciphered_message = []
-    @new_indices.each do |index|
-      @characters_and_indices.each do |character, location|
-        if index == location
-          ciphered_message << character
-        end
-      end
+    ciphered_message = @new_indices.flat_map do |index|
+      CHARACTER_CHART.filter do |_, location|
+        index == location
+      end.keys
     end
     ciphered_message.join
   end

@@ -1,25 +1,31 @@
-require_relative 'encrypt'
-require_relative 'decrypt'
-require_relative 'crack'
-require_relative 'keys'
+# require_relative 'encrypt'
+# require_relative 'decrypt'
+# require_relative 'crack'
+# require_relative 'keys'
+require_relative 'key_generator'
+require_relative 'rotator'
 
-class Enigma < Encrypt
-
-  def initialize(key = Random.rand(0..99999).to_s, date = Time.now.strftime("%d%m%y").to_i)
-    @key = "%05d" % key
-    @date = date
+class Enigma
+  def self.encrypt(message, key, date)
+    rotator(key, date).encrypt(message)
   end
 
-  def encrypt(message, key = @key, date = @date)
-    Encrypt.new(message, key.to_i, date).encrypt(message, key.to_i, date)
+  def self.decrypt(message, key, date)
+    rotator(key, date).decrypt(message)
   end
 
-  def decrypt(message, key = @key, date = @date)
-    Decrypt.new(message, key.to_i, date).decrypt(message, key.to_i, date)
+  def self.crack(message, date)
+    messages = 0.upto(99999).lazy.map do |x|
+      self.decrypt(message, x, date)
+    end
+    messages.find do |m|
+      m.end_with?("..end..")
+    end
   end
 
-  def crack(message, date = @date)
-    Crack.new(date).crack(message, date)
-  end
+  private
 
+  def self.rotator(key, date)
+    Rotator.new(KeyGenerator.new(key, date).key)
+  end
 end

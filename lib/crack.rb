@@ -1,10 +1,26 @@
 require_relative 'decrypt'
 
-class Crack < Decrypt
+class Cracker
   attr_reader :overall_rotators
 
   def initialize(date)
     @date = date
+  end
+
+  def message
+    key = determine_key
+    Enigma.decrypt(message, key, @date)
+  end
+
+  private
+
+  def determine_key
+    known_ending_chars = @message.chars.last(4)
+    result = possible_keys_for(known_ending_chars[0], "n", @message.length - 4) &
+      possible_keys_for(known_ending_chars[1], "d", @message.length - 3) &
+      possible_keys_for(known_ending_chars[2], ".", @message.length - 2) &
+      possible_keys_for(known_ending_chars[3], ".", @message.length - 1)
+    result.first
   end
 
   def map_last_four_of_encrypted(message)
