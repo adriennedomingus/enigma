@@ -1,6 +1,8 @@
 require_relative 'keys'
 
-class Encrypt < Keys
+class Encrypt
+
+  include Keys
 
   def verify_message(message)
     character_chart

@@ -3,7 +3,9 @@ require_relative 'decrypt'
 require_relative 'crack'
 require_relative 'keys'
 
-class Enigma < Encrypt
+class Enigma
+
+  attr_accessor :key
 
   def initialize(key = Random.rand(0..99999).to_s, date = Time.now.strftime("%d%m%y").to_i)
     @key = "%05d" % key

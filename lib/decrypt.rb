@@ -1,6 +1,8 @@
 require_relative 'keys'
 
-class Decrypt < Keys
+class Decrypt
+
+  include Keys
 
   def rotate_encrypted_message(message)
     rotate_indices(message) { |initial, rotation| initial - rotation }

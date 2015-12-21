@@ -1,4 +1,4 @@
-class Keys
+module Keys
     attr_accessor :key
 
   def initialize(message, key, date)

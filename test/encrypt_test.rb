@@ -6,11 +6,6 @@ require_relative '../lib/encrypt'
 
 class EncryptTest < MiniTest::Test
 
-  def test_it_inherits_from_keys
-    result = Keys
-    assert_equal result, Encrypt.superclass
-  end
-
   def test_it_verifies_the_message_doesnt_contain_unsupported_characters
     static_date = Time.new 2015, 12, 10
     e = Encrypt.new(message, 54321, static_date)

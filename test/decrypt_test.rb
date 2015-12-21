@@ -6,11 +6,6 @@ require_relative '../lib/decrypt'
 
 class DecryptTest < MiniTest::Test
 
-  def test_it_inherits_from_keys
-    result = Keys
-    assert_equal result, Decrypt.superclass
-  end
-
   def test_it_rotates_the_message_to_new_index
     static_date = Time.new 2015, 12, 10
     d = Decrypt.new(message, 97521, static_date)

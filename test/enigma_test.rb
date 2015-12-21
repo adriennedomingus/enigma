@@ -5,13 +5,7 @@ require 'minitest/pride'
 require_relative '../lib/enigma'
 
 class EnigmaTest < MiniTest::Test
-
-  def test_it_inherits_from_encrypt
-    result = Encrypt
-    assert_equal result, Enigma.superclass
-  end
-
-  def test_the_key_is_always_5_digits
+   def test_the_key_is_always_5_digits
     keys = []
     static_date = Time.new 2015, 12, 10
     500.times do
