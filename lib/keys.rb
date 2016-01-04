@@ -22,7 +22,7 @@ module Keys
   end
 
   def date_offset
-    @date = Time.now.strftime("%d%m%y").to_i
+    @date = date.strftime("%d%m%y").to_i
     offset = @date ** 2
     @date_key = offset.to_s.split("")[-4..-1].join
   end
