@@ -1,5 +1,5 @@
 module Keys
-    attr_accessor :key
+    attr_accessor :key, :date
 
   def initialize(message, key, date)
     @key = "%05d" % key
